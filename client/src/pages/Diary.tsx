@@ -104,7 +104,7 @@ const Diary = () => {
     
     const entryData = {
       ...entryForm,
-      date: new Date(entryForm.date).toISOString(),
+      date: new Date(entryForm.date),
     };
 
     if (editingEntry) {

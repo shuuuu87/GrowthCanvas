@@ -175,6 +175,8 @@ export const insertUserSchema = createInsertSchema(users).omit({
 export const insertDiaryEntrySchema = createInsertSchema(diaryEntries).omit({
   id: true,
   createdAt: true,
+}).extend({
+  date: z.string().transform((val) => new Date(val)),
 });
 
 export const insertStorySchema = createInsertSchema(stories).omit({
@@ -186,16 +188,22 @@ export const insertStorySchema = createInsertSchema(stories).omit({
 export const insertMistakeSchema = createInsertSchema(mistakes).omit({
   id: true,
   createdAt: true,
+}).extend({
+  date: z.string().transform((val) => new Date(val)),
 });
 
 export const insertAchievementSchema = createInsertSchema(achievements).omit({
   id: true,
   createdAt: true,
+}).extend({
+  date: z.string().transform((val) => new Date(val)),
 });
 
 export const insertStudySessionSchema = createInsertSchema(studySessions).omit({
   id: true,
   createdAt: true,
+}).extend({
+  date: z.string().transform((val) => new Date(val)),
 });
 
 export const insertPersonSchema = createInsertSchema(people).omit({
@@ -207,6 +215,9 @@ export const insertPersonSchema = createInsertSchema(people).omit({
 export const insertCalendarEventSchema = createInsertSchema(calendarEvents).omit({
   id: true,
   createdAt: true,
+}).extend({
+  startTime: z.string().transform((val) => new Date(val)),
+  endTime: z.string().transform((val) => new Date(val)),
 });
 
 export const insertAiAssessmentSchema = createInsertSchema(aiAssessments).omit({

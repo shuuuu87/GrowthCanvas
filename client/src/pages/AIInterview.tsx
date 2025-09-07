@@ -12,52 +12,52 @@ import { format, parseISO } from 'date-fns';
 const questions = [
   {
     id: 1,
-    question: "How would you rate your consistency in pursuing your current goals?",
+    question: "Do you stick to your goals every day?",
     options: [
-      { value: "very-consistent", label: "Very consistent - I stick to my plans daily" },
-      { value: "mostly-consistent", label: "Mostly consistent - I follow through most of the time" },
-      { value: "somewhat-consistent", label: "Somewhat consistent - I struggle sometimes" },
-      { value: "inconsistent", label: "Inconsistent - I often lose motivation" }
+      { value: "very-consistent", label: "Yes - I work on my goals every day" },
+      { value: "mostly-consistent", label: "Most of the time - I follow my plans usually" },
+      { value: "somewhat-consistent", label: "Sometimes - I find it hard sometimes" },
+      { value: "inconsistent", label: "Not really - I often lose interest" }
     ]
   },
   {
     id: 2,
-    question: "How do you typically handle setbacks or failures in your personal growth journey?",
+    question: "What do you do when things don't go as planned?",
     options: [
-      { value: "learn-adapt", label: "I learn from them and adapt my approach" },
-      { value: "persistent", label: "I stay persistent and keep trying" },
-      { value: "discouraged", label: "I get discouraged but eventually bounce back" },
-      { value: "give-up", label: "I often give up and move on to something else" }
+      { value: "learn-adapt", label: "I learn from mistakes and try a new way" },
+      { value: "persistent", label: "I keep trying the same way" },
+      { value: "discouraged", label: "I feel sad but then try again later" },
+      { value: "give-up", label: "I usually stop and try something else" }
     ]
   },
   {
     id: 3,
-    question: "How often do you reflect on your personal progress and growth?",
+    question: "How often do you think about how you're doing?",
     options: [
-      { value: "daily", label: "Daily - I have a consistent reflection practice" },
-      { value: "weekly", label: "Weekly - I set aside time each week to reflect" },
-      { value: "monthly", label: "Monthly - I do monthly reviews" },
-      { value: "rarely", label: "Rarely - I don't have a structured approach" }
+      { value: "daily", label: "Every day - I check how I'm doing daily" },
+      { value: "weekly", label: "Once a week - I think about it weekly" },
+      { value: "monthly", label: "Once a month - I review monthly" },
+      { value: "rarely", label: "Not often - I don't have a regular time" }
     ]
   },
   {
     id: 4,
-    question: "What motivates you most in your personal development?",
+    question: "What makes you want to improve yourself?",
     options: [
-      { value: "intrinsic", label: "Internal satisfaction and personal fulfillment" },
-      { value: "achievement", label: "Achieving specific goals and milestones" },
-      { value: "social", label: "Recognition and approval from others" },
-      { value: "future", label: "Building a better future for myself and others" }
+      { value: "intrinsic", label: "Feeling good about myself inside" },
+      { value: "achievement", label: "Reaching goals I set for myself" },
+      { value: "social", label: "Getting praise from other people" },
+      { value: "future", label: "Making life better for me and others" }
     ]
   },
   {
     id: 5,
-    question: "How well do you balance different areas of your life (work, relationships, health, hobbies)?",
+    question: "Do you have enough time for work, friends, health, and fun?",
     options: [
-      { value: "excellent", label: "Excellent - I maintain great balance across all areas" },
-      { value: "good", label: "Good - Most areas are well-balanced" },
-      { value: "struggling", label: "Struggling - Some areas dominate others" },
-      { value: "poor", label: "Poor - I focus too much on one area" }
+      { value: "excellent", label: "Yes - I have good balance in all areas" },
+      { value: "good", label: "Mostly - Most things are balanced well" },
+      { value: "struggling", label: "No - Some things take too much time" },
+      { value: "poor", label: "No - I spend too much time on one thing" }
     ]
   }
 ];
