@@ -1,0 +1,677 @@
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowthTracker - Personal Development Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    popover: {
+                        DEFAULT: "var(--popover)",
+                        foreground: "var(--popover-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    destructive: {
+                        DEFAULT: "var(--destructive)",
+                        foreground: "var(--destructive-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                },
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                }
+            },
+        }
+    };
+    </script>
+    <style>
+        :root {
+            --background: #120B04;
+            --foreground: #EBE6DC;
+            --card: #201911;
+            --card-foreground: #EBE6DC;
+            --popover: #201911;
+            --popover-foreground: #EBE6DC;
+            --primary: #E94A3F;
+            --primary-foreground: #FFFFFF;
+            --secondary: #52473D;
+            --secondary-foreground: #EBE6DC;
+            --muted: #52473D;
+            --muted-foreground: #A89B91;
+            --accent: #52473D;
+            --accent-foreground: #EBE6DC;
+            --destructive: #E94A3F;
+            --destructive-foreground: #FFFFFF;
+            --border: #52473D;
+            --input: #201911;
+            --ring: #E94A3F;
+            --radius: 0.5rem;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-primary {
+            background: linear-gradient(135deg, #E94A3F 0%, #D73E33 100%);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+        
+        .chart-container {
+            background: linear-gradient(135deg, rgba(233, 74, 63, 0.1) 0%, rgba(215, 62, 51, 0.05) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground min-h-screen">
+    <!-- @COMPONENT: MainLayout -->
+    <div class="flex h-screen">
+        <!-- @COMPONENT: Sidebar -->
+        <aside class="w-64 bg-card border-r border-border flex flex-col">
+            <!-- @COMPONENT: SidebarHeader -->
+            <div class="p-6 border-b border-border">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-seedling text-white text-sm"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-foreground">GrowthTracker</h1>
+                        <p class="text-xs text-muted-foreground">Personal Development</p>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: SidebarHeader -->
+            
+            <!-- @COMPONENT: Navigation -->
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md bg-primary/10 text-primary font-medium">
+                    <i class="fas fa-home w-4"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                    <i class="fas fa-calendar w-4"></i>
+                    <span>Calendar</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                    <i class="fas fa-book-open w-4"></i>
+                    <span>Diary</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                    <i class="fas fa-feather-alt w-4"></i>
+                    <span>Stories</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                    <i class="fas fa-exclamation-triangle w-4"></i>
+                    <span>Mistakes</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                    <i class="fas fa-trophy w-4"></i>
+                    <span>Achievements</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                    <i class="fas fa-graduation-cap w-4"></i>
+                    <span>Study Tracker</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                    <i class="fas fa-users w-4"></i>
+                    <span>People</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                    <i class="fas fa-brain w-4"></i>
+                    <span>AI Interview</span>
+                </a>
+            </nav>
+            <!-- @END_COMPONENT: Navigation -->
+            
+            <!-- @COMPONENT: UserProfile -->
+            <div class="p-4 border-t border-border">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-xs font-medium text-primary-foreground" data-bind="user.initials">JD</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium" data-bind="user.name">John Doe</p>
+                        <p class="text-xs text-muted-foreground">Growth Level 5</p>
+                    </div>
+                    <button class="text-muted-foreground hover:text-foreground">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: UserProfile -->
+        </aside>
+        <!-- @END_COMPONENT: Sidebar -->
+        
+        <!-- @COMPONENT: MainContent -->
+        <main class="flex-1 overflow-auto">
+            <!-- @COMPONENT: Header -->
+            <header class="bg-card border-b border-border p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-foreground">Dashboard</h2>
+                        <p class="text-muted-foreground">Track your personal growth journey</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                            <i class="fas fa-plus mr-2"></i>
+                            Quick Add
+                        </button>
+                        <div class="flex items-center space-x-2 text-muted-foreground">
+                            <i class="fas fa-calendar"></i>
+                            <span data-bind="currentDate">December 15, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- @END_COMPONENT: Header -->
+            
+            <!-- @COMPONENT: DashboardContent -->
+            <div class="p-6 space-y-6">
+                <!-- @COMPONENT: StatsOverview -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-muted-foreground text-sm">Study Hours</p>
+                                <p class="text-2xl font-bold text-foreground" data-bind="stats.studyHours">24.5</p>
+                                <p class="text-primary text-sm">+2.5 this week</p>
+                            </div>
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-muted-foreground text-sm">Achievements</p>
+                                <p class="text-2xl font-bold text-foreground" data-bind="stats.achievements">12</p>
+                                <p class="text-primary text-sm">+3 this month</p>
+                            </div>
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-trophy text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-muted-foreground text-sm">Diary Entries</p>
+                                <p class="text-2xl font-bold text-foreground" data-bind="stats.diaryEntries">89</p>
+                                <p class="text-primary text-sm">7-day streak</p>
+                            </div>
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-pen text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-muted-foreground text-sm">Growth Score</p>
+                                <p class="text-2xl font-bold text-foreground" data-bind="stats.growthScore">85%</p>
+                                <p class="text-primary text-sm">Excellent progress</p>
+                            </div>
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-line text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: StatsOverview -->
+                
+                <!-- @COMPONENT: MainDashboardGrid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- @COMPONENT: StudyProgress -->
+                    <div class="lg:col-span-2 bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Study Progress</h3>
+                            <button class="text-muted-foreground hover:text-foreground">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        <div class="chart-container rounded-lg p-4 mb-4">
+                            <div class="flex items-end space-x-2 h-32">
+                                <!-- Study progress chart bars -->
+                                <div class="flex-1 bg-primary/20 rounded-t" style="height: 60%"></div>
+                                <div class="flex-1 bg-primary/30 rounded-t" style="height: 80%"></div>
+                                <div class="flex-1 bg-primary/40 rounded-t" style="height: 45%"></div>
+                                <div class="flex-1 bg-primary/50 rounded-t" style="height: 90%"></div>
+                                <div class="flex-1 bg-primary/60 rounded-t" style="height: 70%"></div>
+                                <div class="flex-1 bg-primary/70 rounded-t" style="height: 100%"></div>
+                                <div class="flex-1 bg-primary rounded-t" style="height: 85%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-muted-foreground mt-2">
+                                <span>Mon</span>
+                                <span>Tue</span>
+                                <span>Wed</span>
+                                <span>Thu</span>
+                                <span>Fri</span>
+                                <span>Sat</span>
+                                <span>Sun</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <!-- @MAP: studyTopics.map(topic => ( -->
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-2 h-2 bg-primary rounded-full"></div>
+                                    <span class="text-sm" data-bind="topic.name">JavaScript Advanced</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-20 bg-muted rounded-full h-2">
+                                        <div class="bg-primary h-2 rounded-full" style="width: 75%" data-bind="topic.progress"></div>
+                                    </div>
+                                    <span class="text-xs text-muted-foreground" data-bind="topic.percentage">75%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-2 h-2 bg-primary/70 rounded-full"></div>
+                                    <span class="text-sm" data-bind="topic.name">React Hooks</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-20 bg-muted rounded-full h-2">
+                                        <div class="bg-primary/70 h-2 rounded-full" style="width: 60%" data-bind="topic.progress"></div>
+                                    </div>
+                                    <span class="text-xs text-muted-foreground" data-bind="topic.percentage">60%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-2 h-2 bg-primary/50 rounded-full"></div>
+                                    <span class="text-sm" data-bind="topic.name">System Design</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-20 bg-muted rounded-full h-2">
+                                        <div class="bg-primary/50 h-2 rounded-full" style="width: 40%" data-bind="topic.progress"></div>
+                                    </div>
+                                    <span class="text-xs text-muted-foreground" data-bind="topic.percentage">40%</span>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: StudyProgress -->
+                    
+                    <!-- @COMPONENT: QuickActions -->
+                    <div class="space-y-6">
+                        <!-- @COMPONENT: AIInterview -->
+                        <div class="bg-card rounded-lg p-6 border border-border">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-brain text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">AI Growth Interview</h3>
+                                    <p class="text-xs text-muted-foreground">5-minute assessment</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-muted-foreground mb-4">
+                                Take a quick AI-powered interview to assess your growth and get personalized recommendations.
+                            </p>
+                            <button class="w-full bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                                Start Interview
+                            </button>
+                        </div>
+                        <!-- @END_COMPONENT: AIInterview -->
+                        
+                        <!-- @COMPONENT: RecentActivity -->
+                        <div class="bg-card rounded-lg p-6 border border-border">
+                            <h3 class="font-semibold mb-4">Recent Activity</h3>
+                            <div class="space-y-3">
+                                <!-- @MAP: recentActivities.map(activity => ( -->
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
+                                        <i class="fas fa-check text-primary text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm" data-bind="activity.title">Completed React study session</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="activity.time">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
+                                        <i class="fas fa-pen text-primary text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm" data-bind="activity.title">Added diary entry</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="activity.time">5 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
+                                        <i class="fas fa-trophy text-primary text-xs"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm" data-bind="activity.title">Achievement unlocked</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="activity.time">1 day ago</p>
+                                    </div>
+                                </div>
+                                <!-- @END_MAP )) -->
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: RecentActivity -->
+                    </div>
+                    <!-- @END_COMPONENT: QuickActions -->
+                </div>
+                <!-- @END_COMPONENT: MainDashboardGrid -->
+                
+                <!-- @COMPONENT: SecondaryGrid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- @COMPONENT: Calendar -->
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Calendar</h3>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-muted-foreground hover:text-foreground">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-sm font-medium" data-bind="calendar.month">December 2024</span>
+                                <button class="text-muted-foreground hover:text-foreground">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid text-center text-xs">
+                            <div class="p-2 font-medium text-muted-foreground">Sun</div>
+                            <div class="p-2 font-medium text-muted-foreground">Mon</div>
+                            <div class="p-2 font-medium text-muted-foreground">Tue</div>
+                            <div class="p-2 font-medium text-muted-foreground">Wed</div>
+                            <div class="p-2 font-medium text-muted-foreground">Thu</div>
+                            <div class="p-2 font-medium text-muted-foreground">Fri</div>
+                            <div class="p-2 font-medium text-muted-foreground">Sat</div>
+                            
+                            <!-- Calendar days -->
+                            <div class="p-2 text-muted-foreground">1</div>
+                            <div class="p-2 text-muted-foreground">2</div>
+                            <div class="p-2">3</div>
+                            <div class="p-2">4</div>
+                            <div class="p-2 bg-primary/10 rounded text-primary font-medium">5</div>
+                            <div class="p-2">6</div>
+                            <div class="p-2">7</div>
+                            <div class="p-2">8</div>
+                            <div class="p-2">9</div>
+                            <div class="p-2">10</div>
+                            <div class="p-2">11</div>
+                            <div class="p-2">12</div>
+                            <div class="p-2">13</div>
+                            <div class="p-2">14</div>
+                            <div class="p-2 bg-primary text-primary-foreground rounded font-medium">15</div>
+                            <div class="p-2">16</div>
+                            <div class="p-2">17</div>
+                            <div class="p-2">18</div>
+                            <div class="p-2">19</div>
+                            <div class="p-2">20</div>
+                            <div class="p-2">21</div>
+                            <div class="p-2">22</div>
+                            <div class="p-2">23</div>
+                            <div class="p-2">24</div>
+                            <div class="p-2">25</div>
+                            <div class="p-2">26</div>
+                            <div class="p-2">27</div>
+                            <div class="p-2">28</div>
+                            <div class="p-2">29</div>
+                            <div class="p-2">30</div>
+                            <div class="p-2">31</div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: Calendar -->
+                    
+                    <!-- @COMPONENT: PeopleManagement -->
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">People</h3>
+                            <button class="text-primary hover:text-primary/80">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <!-- @MAP: people.map(person => ( -->
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-background/50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                        <span class="text-xs font-medium text-primary-foreground" data-bind="person.initials">AM</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium" data-bind="person.name">Alex Morgan</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="person.relationship">Close Friend</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-heart text-primary text-sm" data-bind="person.sentiment"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-background/50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                        <span class="text-xs font-medium text-secondary-foreground" data-bind="person.initials">JS</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium" data-bind="person.name">Jordan Smith</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="person.relationship">Colleague</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-meh text-muted-foreground text-sm" data-bind="person.sentiment"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 rounded-lg bg-background/50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-destructive rounded-full flex items-center justify-center">
+                                        <span class="text-xs font-medium text-destructive-foreground" data-bind="person.initials">MK</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium" data-bind="person.name">Mike Kelly</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="person.relationship">Ex-colleague</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-frown text-destructive text-sm" data-bind="person.sentiment"></i>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: PeopleManagement -->
+                </div>
+                <!-- @END_COMPONENT: SecondaryGrid -->
+                
+                <!-- @COMPONENT: RecentEntries -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- @COMPONENT: DiaryEntries -->
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Recent Diary</h3>
+                            <button class="text-primary hover:text-primary/80">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- @MAP: diaryEntries.map(entry => ( -->
+                            <div class="border-l-2 border-primary pl-4">
+                                <p class="text-sm text-muted-foreground" data-bind="entry.date">Dec 15, 2024</p>
+                                <p class="text-sm mt-1" data-bind="entry.preview">Today was a productive day. I completed my React study session and learned about custom hooks...</p>
+                            </div>
+                            <div class="border-l-2 border-muted pl-4">
+                                <p class="text-sm text-muted-foreground" data-bind="entry.date">Dec 14, 2024</p>
+                                <p class="text-sm mt-1" data-bind="entry.preview">Reflecting on my progress this week. I feel more confident about my coding skills...</p>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: DiaryEntries -->
+                    
+                    <!-- @COMPONENT: Achievements -->
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Achievements</h3>
+                            <button class="text-primary hover:text-primary/80">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <!-- @MAP: achievements.map(achievement => ( -->
+                            <div class="flex items-center space-x-3 p-3 rounded-lg bg-primary/5">
+                                <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-trophy text-primary text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium" data-bind="achievement.title">7-Day Study Streak</p>
+                                    <p class="text-xs text-muted-foreground" data-bind="achievement.date">2 days ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 rounded-lg bg-primary/5">
+                                <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-code text-primary text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium" data-bind="achievement.title">React Master</p>
+                                    <p class="text-xs text-muted-foreground" data-bind="achievement.date">1 week ago</p>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: Achievements -->
+                    
+                    <!-- @COMPONENT: Mistakes -->
+                    <div class="bg-card rounded-lg p-6 border border-border">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Learning from Mistakes</h3>
+                            <button class="text-primary hover:text-primary/80">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <!-- @MAP: mistakes.map(mistake => ( -->
+                            <div class="p-3 rounded-lg bg-background/50 border-l-2 border-destructive">
+                                <p class="text-sm font-medium" data-bind="mistake.title">Not backing up code</p>
+                                <p class="text-xs text-muted-foreground mt-1" data-bind="mistake.lesson">Always use version control for important projects</p>
+                                <p class="text-xs text-muted-foreground" data-bind="mistake.date">3 days ago</p>
+                            </div>
+                            <div class="p-3 rounded-lg bg-background/50 border-l-2 border-destructive">
+                                <p class="text-sm font-medium" data-bind="mistake.title">Procrastinating study sessions</p>
+                                <p class="text-xs text-muted-foreground mt-1" data-bind="mistake.lesson">Set specific time blocks for learning</p>
+                                <p class="text-xs text-muted-foreground" data-bind="mistake.date">1 week ago</p>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: Mistakes -->
+                </div>
+                <!-- @END_COMPONENT: RecentEntries -->
+            </div>
+            <!-- @END_COMPONENT: DashboardContent -->
+        </main>
+        <!-- @END_COMPONENT: MainContent -->
+    </div>
+    <!-- @END_COMPONENT: MainLayout -->
+    
+    <!-- @COMPONENT: AIInterviewModal (Hidden by default) -->
+    <div id="aiInterviewModal" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 hidden">
+        <div class="bg-card rounded-lg w-full max-w-md p-6 border border-border">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold">AI Growth Interview</h3>
+                <button class="text-muted-foreground hover:text-foreground">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm font-medium mb-2">How would you rate your current motivation level?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="motivation" class="text-primary focus:ring-primary">
+                            <span class="text-sm">Very Low</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="motivation" class="text-primary focus:ring-primary">
+                            <span class="text-sm">Low</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="motivation" class="text-primary focus:ring-primary">
+                            <span class="text-sm">Moderate</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="motivation" class="text-primary focus:ring-primary">
+                            <span class="text-sm">High</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="motivation" class="text-primary focus:ring-primary">
+                            <span class="text-sm">Very High</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="flex-1 bg-secondary text-secondary-foreground py-2 rounded-lg hover:bg-secondary/90 transition-colors">
+                        Previous
+                    </button>
+                    <button class="flex-1 bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        Next
+                    </button>
+                </div>
+                <div class="text-center">
+                    <span class="text-xs text-muted-foreground">Question 1 of 5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AIInterviewModal -->
+    
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        (function() {
+            // Simple interaction handlers for demo purposes
+            const quickAddBtn = document.querySelector('button:has(i.fas.fa-plus)');
+            const aiInterviewBtn = document.querySelector('button:contains("Start Interview")');
+            
+            // Mock data updates would be handled here
+            // Real implementation would use React state management
+            
+            console.log('GrowthTracker dashboard initialized');
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowthHub - Personal Development Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                colors: {
+                    primary: '#E94A3F',
+                    'primary-hover': '#d63c32',
+                    'warm-bg': '#120B04',
+                    'card-bg': '#201911',
+                    'warm-text': '#EBE6DC',
+                    'muted-accent': '#52473D',
+                    'soft-coral': '#F5A394'
+                },
+                fontFamily: {
+                    'sans': ['Inter', 'system-ui', 'sans-serif']
+                }
+            }
+        }
+    };
+    </script>
+    <style>
+        body {
+            background-color: #120B04;
+            color: #EBE6DC;
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #201911;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #52473D;
+            border-radius: 3px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    
+    <!-- @COMPONENT: MainLayout -->
+    <div class="flex h-screen">
+        
+        <!-- @COMPONENT: Sidebar -->
+        <div class="w-64 bg-card-bg border-r border-muted-accent custom-scrollbar overflow-y-auto">
+            <!-- @END_COMPONENT: Sidebar -->
+            
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-muted-accent">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-seedling text-white text-sm"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-warm-text">GrowthHub</h1>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="p-4">
+                <div class="space-y-2">
+                    <a href="#dashboard" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-primary text-white font-medium transition-colors">
+                        <i class="fas fa-chart-line w-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#calendar" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-warm-text hover:bg-muted-accent transition-colors">
+                        <i class="fas fa-calendar-alt w-5"></i>
+                        <span>Calendar</span>
+                    </a>
+                    <a href="#diary" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-warm-text hover:bg-muted-accent transition-colors">
+                        <i class="fas fa-book-open w-5"></i>
+                        <span>Daily Diary</span>
+                    </a>
+                    <a href="#stories" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-warm-text hover:bg-muted-accent transition-colors">
+                        <i class="fas fa-feather-alt w-5"></i>
+                        <span>My Stories</span>
+                    </a>
+                    <a href="#study" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-warm-text hover:bg-muted-accent transition-colors">
+                        <i class="fas fa-graduation-cap w-5"></i>
+                        <span>Study Tracker</span>
+                    </a>
+                    <a href="#achievements" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-warm-text hover:bg-muted-accent transition-colors">
+                        <i class="fas fa-trophy w-5"></i>
+                        <span>Achievements</span>
+                    </a>
+                    <a href="#mistakes" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-warm-text hover:bg-muted-accent transition-colors">
+                        <i class="fas fa-lightbulb w-5"></i>
+                        <span>Learning Log</span>
+                    </a>
+                    <a href="#people" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-warm-text hover:bg-muted-accent transition-colors">
+                        <i class="fas fa-users w-5"></i>
+                        <span>People</span>
+                    </a>
+                </div>
+
+                <!-- AI Interview Section -->
+                <div class="mt-8 p-4 bg-warm-bg rounded-lg border border-muted-accent">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <i class="fas fa-robot text-primary"></i>
+                        <h3 class="font-semibold text-sm text-warm-text">Growth Assessment</h3>
+                    </div>
+                    <p class="text-xs text-muted-accent mb-3">Take a 5-minute interview to analyze your personal growth</p>
+                    <button class="w-full px-3 py-2 bg-primary hover:bg-primary-hover text-white text-sm rounded-lg transition-colors">
+                        Start Interview
+                    </button>
+                </div>
+
+                <!-- Profile Section -->
+                <div class="mt-8 p-4 border-t border-muted-accent">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-soft-coral rounded-full flex items-center justify-center">
+                            <span class="text-xs font-semibold text-card-bg">JD</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-warm-text" data-bind="user.name">John Doe</p>
+                            <p class="text-xs text-muted-accent">Growing daily</p>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- @COMPONENT: MainContent -->
+        <div class="flex-1 overflow-hidden">
+            <!-- @END_COMPONENT: MainContent -->
+            
+            <!-- Header -->
+            <header class="bg-card-bg border-b border-muted-accent px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-warm-text">Personal Growth Dashboard</h1>
+                        <p class="text-muted-accent mt-1">Track your journey, celebrate your wins</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg transition-colors">
+                            <i class="fas fa-plus mr-2"></i>Add Entry
+                        </button>
+                        <div class="relative">
+                            <i class="fas fa-bell text-muted-accent hover:text-warm-text cursor-pointer"></i>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full"></span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Dashboard Content -->
+            <main class="p-8 custom-scrollbar overflow-y-auto h-full">
+                
+                <!-- Stats Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-muted-accent text-sm">Study Hours</p>
+                                <p class="text-2xl font-bold text-warm-text" data-bind="stats.studyHours">47</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-blue-400"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-green-400 text-sm">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span>+12% this week</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-muted-accent text-sm">Achievements</p>
+                                <p class="text-2xl font-bold text-warm-text" data-bind="stats.achievements">23</p>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-trophy text-yellow-400"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-green-400 text-sm">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span>+3 this week</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-muted-accent text-sm">Diary Entries</p>
+                                <p class="text-2xl font-bold text-warm-text" data-bind="stats.diaryEntries">156</p>
+                            </div>
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-book text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-green-400 text-sm">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span>Daily streak: 7 days</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-muted-accent text-sm">Growth Score</p>
+                                <p class="text-2xl font-bold text-warm-text" data-bind="stats.growthScore">8.4</p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-line text-green-400"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-green-400 text-sm">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span>Excellent progress</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Left Column -->
+                    <div class="lg:col-span-2 space-y-8">
+                        
+                        <!-- Study Progress Chart -->
+                        <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-lg font-semibold text-warm-text">Study Progress</h3>
+                                <select class="bg-warm-bg border border-muted-accent rounded-lg px-3 py-1 text-sm text-warm-text">
+                                    <option>Last 7 days</option>
+                                    <option>Last 30 days</option>
+                                    <option>Last 90 days</option>
+                                </select>
+                            </div>
+                            <!-- Chart placeholder -->
+                            <div class="h-64 bg-warm-bg rounded-lg flex items-center justify-center border border-muted-accent">
+                                <div class="text-center">
+                                    <i class="fas fa-chart-area text-4xl text-muted-accent mb-4"></i>
+                                    <p class="text-muted-accent">Study progress visualization</p>
+                                    <p class="text-sm text-muted-accent mt-2">Topics covered over time</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                            <h3 class="text-lg font-semibold text-warm-text mb-6">Recent Activity</h3>
+                            <div class="space-y-4">
+                                <!-- @MAP: activities.map(activity => ( -->
+                                <div class="flex items-start space-x-4 p-4 bg-warm-bg rounded-lg">
+                                    <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-graduation-cap text-primary text-sm"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-warm-text font-medium">Completed JavaScript Fundamentals</p>
+                                        <p class="text-muted-accent text-sm">2 hours study session • Web Development</p>
+                                        <p class="text-muted-accent text-xs mt-1">2 hours ago</p>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Completed</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-4 p-4 bg-warm-bg rounded-lg">
+                                    <div class="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-trophy text-yellow-400 text-sm"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-warm-text font-medium">Achievement Unlocked: 7-Day Streak</p>
+                                        <p class="text-muted-accent text-sm">Maintained daily diary entries</p>
+                                        <p class="text-muted-accent text-xs mt-1">5 hours ago</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-4 p-4 bg-warm-bg rounded-lg">
+                                    <div class="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-lightbulb text-blue-400 text-sm"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-warm-text font-medium">Learning Moment Added</p>
+                                        <p class="text-muted-accent text-sm">Lesson from debugging session</p>
+                                        <p class="text-muted-accent text-xs mt-1">1 day ago</p>
+                                    </div>
+                                </div>
+                                <!-- @END_MAP )) -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="space-y-8">
+                        
+                        <!-- Today's Calendar -->
+                        <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-warm-text">Today's Schedule</h3>
+                                <button class="text-primary hover:text-primary-hover text-sm font-medium">View Full</button>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center space-x-3 p-3 bg-warm-bg rounded-lg">
+                                    <div class="w-2 h-8 bg-primary rounded-full"></div>
+                                    <div class="flex-1">
+                                        <p class="text-warm-text font-medium text-sm">React Study Session</p>
+                                        <p class="text-muted-accent text-xs">9:00 AM - 11:00 AM</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 bg-warm-bg rounded-lg">
+                                    <div class="w-2 h-8 bg-blue-400 rounded-full"></div>
+                                    <div class="flex-1">
+                                        <p class="text-warm-text font-medium text-sm">Diary Writing</p>
+                                        <p class="text-muted-accent text-xs">7:00 PM - 7:30 PM</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 bg-warm-bg rounded-lg">
+                                    <div class="w-2 h-8 bg-green-400 rounded-full"></div>
+                                    <div class="flex-1">
+                                        <p class="text-warm-text font-medium text-sm">Review Goals</p>
+                                        <p class="text-muted-accent text-xs">9:30 PM - 10:00 PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Growth Assessment -->
+                        <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-warm-text">AI Growth Assessment</h3>
+                                <i class="fas fa-robot text-primary"></i>
+                            </div>
+                            <div class="text-center mb-4">
+                                <!-- Progress Ring -->
+                                <div class="relative inline-flex items-center justify-center">
+                                    <svg class="w-24 h-24 progress-ring">
+                                        <circle cx="48" cy="48" r="40" stroke="#52473D" stroke-width="4" fill="transparent"></circle>
+                                        <circle cx="48" cy="48" r="40" stroke="#E94A3F" stroke-width="4" fill="transparent" 
+                                                stroke-dasharray="251" stroke-dashoffset="75" stroke-linecap="round"></circle>
+                                    </svg>
+                                    <div class="absolute text-center">
+                                        <div class="text-xl font-bold text-warm-text">84%</div>
+                                        <div class="text-xs text-muted-accent">Growth</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 mb-4">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-muted-accent">Learning Consistency</span>
+                                    <span class="text-green-400">Excellent</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-muted-accent">Reflection Quality</span>
+                                    <span class="text-yellow-400">Good</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-muted-accent">Goal Progress</span>
+                                    <span class="text-green-400">On Track</span>
+                                </div>
+                            </div>
+                            <button class="w-full px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm transition-colors">
+                                Take New Assessment
+                            </button>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="bg-card-bg p-6 rounded-xl border border-muted-accent">
+                            <h3 class="text-lg font-semibold text-warm-text mb-4">Quick Stats</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-user-friends text-blue-400 text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-warm-text font-medium text-sm">People Tracked</p>
+                                            <p class="text-muted-accent text-xs">Relationships</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-warm-text font-semibold" data-bind="stats.peopleTracked">12</span>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-check-circle text-green-400 text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-warm-text font-medium text-sm">Goals Completed</p>
+                                            <p class="text-muted-accent text-xs">This month</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-warm-text font-semibold" data-bind="stats.goalsCompleted">8/12</span>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-scroll text-purple-400 text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-warm-text font-medium text-sm">Stories Written</p>
+                                            <p class="text-muted-accent text-xs">Personal narratives</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-warm-text font-semibold" data-bind="stats.storiesWritten">6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- @COMPONENT: InterviewModal -->
+    <!-- @FUNCTIONALITY: AI-powered interview system with 5-minute duration and multiple choice questions -->
+    <div id="interview-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-card-bg p-8 rounded-xl border border-muted-accent max-w-2xl w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-robot text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-warm-text">Growth Assessment Interview</h3>
+                        <p class="text-muted-accent text-sm">5-minute AI-powered evaluation</p>
+                    </div>
+                </div>
+                <button class="text-muted-accent hover:text-warm-text">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-muted-accent">Question 3 of 10</span>
+                    <span class="text-sm text-muted-accent">Time remaining: 3:24</span>
+                </div>
+                <div class="w-full bg-warm-bg rounded-full h-2">
+                    <div class="bg-primary h-2 rounded-full w-1/3"></div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h4 class="text-lg font-medium text-warm-text mb-4">How would you rate your consistency in learning new skills over the past month?</h4>
+                <div class="space-y-3">
+                    <!-- @MAP: options.map(option => ( -->
+                    <label class="flex items-center p-4 bg-warm-bg rounded-lg border border-muted-accent hover:border-primary cursor-pointer transition-colors">
+                        <input type="radio" name="question-3" class="text-primary focus:ring-primary focus:ring-2" />
+                        <span class="ml-3 text-warm-text">Excellent - I've maintained daily learning habits</span>
+                    </label>
+                    <label class="flex items-center p-4 bg-warm-bg rounded-lg border border-muted-accent hover:border-primary cursor-pointer transition-colors">
+                        <input type="radio" name="question-3" class="text-primary focus:ring-primary focus:ring-2" />
+                        <span class="ml-3 text-warm-text">Good - I've learned consistently most days</span>
+                    </label>
+                    <label class="flex items-center p-4 bg-warm-bg rounded-lg border border-muted-accent hover:border-primary cursor-pointer transition-colors">
+                        <input type="radio" name="question-3" class="text-primary focus:ring-primary focus:ring-2" />
+                        <span class="ml-3 text-warm-text">Fair - I've had some consistent periods</span>
+                    </label>
+                    <label class="flex items-center p-4 bg-warm-bg rounded-lg border border-muted-accent hover:border-primary cursor-pointer transition-colors">
+                        <input type="radio" name="question-3" class="text-primary focus:ring-primary focus:ring-2" />
+                        <span class="ml-3 text-warm-text">Poor - I've struggled with consistency</span>
+                    </label>
+                    <!-- @END_MAP )) -->
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button class="px-6 py-2 text-muted-accent hover:text-warm-text transition-colors">
+                    Previous
+                </button>
+                <button class="px-6 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg transition-colors">
+                    Next Question
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: InterviewModal -->
+
+    <script>
+        // Basic interaction handlers wrapped in IIFE to avoid global scope pollution
+        (function() {
+            // TODO: Implement navigation between different sections
+            // TODO: Implement interview modal functionality
+            // TODO: Implement real-time data updates
+            // TODO: Implement study session tracking
+            // TODO: Implement PostgreSQL database integration
+            
+            // Modal toggle example
+            const interviewModal = document.getElementById('interview-modal');
+            const startInterviewBtn = document.querySelector('button:contains("Start Interview")');
+            
+            // Note: This would need proper event binding in production
+            console.log('GrowthHub application initialized');
+        })();
+    </script>
+
+</body>
+</html>
