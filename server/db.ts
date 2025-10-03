@@ -14,6 +14,9 @@ if (!process.env.DATABASE_URL) {
 
 // Create connection for Neon with proper SSL
 export const pool = new Pool({ 
-  connectionString: process.env.DATABASE_URL
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 export const db = drizzle({ client: pool, schema });

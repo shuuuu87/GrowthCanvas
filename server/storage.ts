@@ -8,6 +8,7 @@ import {
   people,
   calendarEvents,
   aiAssessments,
+  chatMessages,
   type User,
   type InsertUser,
   type DiaryEntry,
@@ -26,6 +27,8 @@ import {
   type InsertCalendarEvent,
   type AiAssessment,
   type InsertAiAssessment,
+  type ChatMessage,
+  type InsertChatMessage,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, gte, lte } from "drizzle-orm";
@@ -85,6 +88,10 @@ export interface IStorage {
   getAiAssessments(userId: string): Promise<AiAssessment[]>;
   createAiAssessment(assessment: InsertAiAssessment): Promise<AiAssessment>;
   getLatestAiAssessment(userId: string): Promise<AiAssessment | undefined>;
+
+  // Chat message operations
+  getChatMessages(limit?: number): Promise<ChatMessage[]>;
+  createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -348,6 +355,20 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(aiAssessments.createdAt))
       .limit(1);
     return assessment || undefined;
+  }
+
+  // Chat message operations
+  async getChatMessages(limit: number = 50): Promise<ChatMessage[]> {
+    return await db
+      .select()
+      .from(chatMessages)
+      .orderBy(desc(chatMessages.createdAt))
+      .limit(limit);
+  }
+
+  async createChatMessage(message: InsertChatMessage): Promise<ChatMessage> {
+    const [newMessage] = await db.insert(chatMessages).values(message).returning();
+    return newMessage;
   }
 }
 

@@ -98,6 +98,14 @@ export const aiAssessments = pgTable("ai_assessments", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const chatMessages = pgTable("chat_messages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  username: text("username").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   diaryEntries: many(diaryEntries),
@@ -108,6 +116,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   people: many(people),
   calendarEvents: many(calendarEvents),
   aiAssessments: many(aiAssessments),
+  chatMessages: many(chatMessages),
 }));
 
 export const diaryEntriesRelations = relations(diaryEntries, ({ one }) => ({
@@ -162,6 +171,13 @@ export const calendarEventsRelations = relations(calendarEvents, ({ one }) => ({
 export const aiAssessmentsRelations = relations(aiAssessments, ({ one }) => ({
   user: one(users, {
     fields: [aiAssessments.userId],
+    references: [users.id],
+  }),
+}));
+
+export const chatMessagesRelations = relations(chatMessages, ({ one }) => ({
+  user: one(users, {
+    fields: [chatMessages.userId],
     references: [users.id],
   }),
 }));
@@ -225,6 +241,11 @@ export const insertAiAssessmentSchema = createInsertSchema(aiAssessments).omit({
   createdAt: true,
 });
 
+export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -244,3 +265,5 @@ export type CalendarEvent = typeof calendarEvents.$inferSelect;
 export type InsertCalendarEvent = z.infer<typeof insertCalendarEventSchema>;
 export type AiAssessment = typeof aiAssessments.$inferSelect;
 export type InsertAiAssessment = z.infer<typeof insertAiAssessmentSchema>;
+export type ChatMessage = typeof chatMessages.$inferSelect;
+export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;

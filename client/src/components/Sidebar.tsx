@@ -12,7 +12,8 @@ import {
   Brain,
   ChartLine,
   User,
-  LogOut
+  LogOut,
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -26,6 +27,7 @@ const sidebarItems = [
   { path: '/study-tracker', icon: GraduationCap, label: 'Study Tracker' },
   { path: '/people', icon: Users, label: 'People' },
   { path: '/ai-interview', icon: Brain, label: 'AI Interview' },
+  { path: '/chat', icon: MessageSquare, label: 'Chat Room' },
 ];
 
 const Sidebar = () => {

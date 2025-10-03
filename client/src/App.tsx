@@ -17,6 +17,7 @@ import Achievements from "@/pages/Achievements";
 import StudyTracker from "@/pages/StudyTracker";
 import People from "@/pages/People";
 import AIInterview from "@/pages/AIInterview";
+import ChatRoom from "@/pages/ChatRoom";
 
 function Router() {
   return (
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/study-tracker" component={StudyTracker} />
       <Route path="/people" component={People} />
       <Route path="/ai-interview" component={AIInterview} />
+      <Route path="/chat" component={ChatRoom} />
       <Route component={NotFound} />
     </Switch>
   );
